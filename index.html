@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spring Associates - Premium Dry Fruits & Confectioneries</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.6;
+            color: #000000;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FFE66D 50%, #4ECDC4 100%);
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: #FDF5E6;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            width: 100%;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            position: relative;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #000000;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-image {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid #FF6B6B;
+        }
+
+        .logo::after {
+            content: '';
+            margin-left: 0px;
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 1000;
+        }       
+        .hamburger svg {
+            transition: 0.3s ease;
+        }
+        
+        .hamburger.active svg {
+            transform: rotate(180deg);
+        }
+
+        /* Navigation Menu */
+        .nav-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: #FDF5E6;
+            min-width: 200px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-radius: 10px;
+            overflow: hidden;
+            transform: translateY(-10px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .nav-menu.active {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .nav-menu a {
+            display: block;
+            padding: 15px 20px;
+            text-decoration: none;
+            color: #000000;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-menu a:last-child {
+            border-bottom: none;
+        }
+
+        .nav-menu a:hover {
+            background-color: rgba(255, 107, 107, 0.1);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 0;
+            text-align: center;
+            background: #FDF5E6;
+            margin: 2rem 0;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: #000000;
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+            color: #FDF5E6;
+            padding: 15px 40px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        /* Legacy Section */
+        .legacy {
+            padding: 4rem 0;
+            background: #FDF5E6;
+            margin: 2rem 0;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .legacy h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #000000;
+        }
+
+        .legacy p {
+            font-size: 1.2rem;
+            color: #000000;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* Products Section */
+        .products {
+            padding: 4rem 0;
+            background: #FDF5E6;
+            margin: 2rem 0;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .products h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #000000;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 4rem;
+            margin-bottom: 2rem;
+            padding: 0 1rem;
+        }
+
+        .product-card {
+            background: linear-gradient(135deg, #FAF3E8 0%, #F5EFE0 100%);
+            padding: 2.5rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 107, 107, 0.2);
+            cursor: pointer;
+            margin: 0.5rem;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(255, 107, 107, 0.2);
+        }
+
+        .product-image {
+            margin-bottom: 1.5rem;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .product-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #000000;
+        }
+
+        .product-card p {
+            color: #000000;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .product-badge {
+            font-weight: bold;
+            color: #FDF5E6;
+            background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+            padding: 8px 20px;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        .sugar-free {
+            background: #4CAF50;
+        }
+
+        /* Quality Section */
+        .quality {
+            padding: 4rem 2rem;
+            background: #FDF5E6;
+            margin: 2rem 0;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .quality h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #000000;
+        }
+
+        .quality-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .quality-card {
+            text-align: center;
+            padding: 2rem;
+            color: #FDF5E6;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .quality-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .quality-card:nth-child(1) {
+            background: linear-gradient(135deg, #FB923C 0%, #F97316 100%);
+        }
+
+        .quality-card:nth-child(2) {
+            background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 100%);
+        }
+
+        .quality-card:nth-child(3) {
+            background: linear-gradient(135deg, #4ADE80 0%, #22C55E 100%);
+        }
+
+        .quality-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 4rem 0;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+            color: #FDF5E6;
+            margin: 2rem 0;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .contact h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(253, 245, 230, 0.15);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(253, 245, 230, 0.3);
+        }
+
+        .contact-item:hover {
+            background: rgba(253, 245, 230, 0.25);
+            transform: scale(1.05);
+        }
+
+        .contact-icon {
+            font-size: 1.5rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2rem;
+                gap: 6px;
+            }
+            
+            .logo-image {
+                width: 26px;
+                height: 26px;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="logo" onclick="navigateToSection('hero')" style="cursor: pointer;">
+                    <img src="https://raw.githubusercontent.com/varunbagi/spring-associates-dry-fruits/main/spring-associates-logo.jpg" alt="Spring Associates Logo" class="logo-image" />
+                    Spring Associates
+                </div>
+                <div class="hamburger" onclick="toggleMenu()">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Bowl -->
+                        <path d="M4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12H4Z" fill="#FF6B6B"/>
+                        <!-- Cashew 1 -->
+                        <path d="M9 8C8.5 7.5 8 7 8.5 6.5C9 6 9.5 6.5 10 7C10.5 7.5 10 8 9.5 8.5C9.2 8.3 9 8 9 8Z" fill="#FF6B6B"/>
+                        <!-- Cashew 2 -->
+                        <path d="M13 9C12.5 8.5 12 8 12.5 7.5C13 7 13.5 7.5 14 8C14.5 8.5 14 9 13.5 9.5C13.2 9.3 13 9 13 9Z" fill="#FF6B6B"/>
+                        <!-- Almond -->
+                        <ellipse cx="11" cy="6" rx="1" ry="1.5" fill="#FF6B6B"/>
+                        <!-- Decorative dots -->
+                        <circle cx="8" cy="14" r="0.5" fill="white"/>
+                        <circle cx="10" cy="13" r="0.5" fill="white"/>
+                        <circle cx="12" cy="14" r="0.5" fill="white"/>
+                        <circle cx="14" cy="13" r="0.5" fill="white"/>
+                        <circle cx="16" cy="14" r="0.5" fill="white"/>
+                    </svg>
+                </div>
+                <div class="nav-menu" id="navMenu">
+                    <a onclick="navigateToSection('hero')">Home</a>
+                    <a onclick="navigateToSection('legacy')">Our Legacy</a>
+                    <a onclick="navigateToSection('products')">Our Products</a>
+                    <a onclick="navigateToSection('quality')">Quality Standards</a>
+                    <a onclick="navigateToSection('contact')">Contact Us</a>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="container">
+        <section class="hero" id="hero">
+            <div class="hero-content">
+                <div class="brand-logo">
+                    <img src="https://raw.githubusercontent.com/varunbagi/spring-associates-dry-fruits/main/spring-associates-logo.jpg" alt="Spring Associates Logo" style="width: 120px; height: 120px; border-radius: 50%; margin-bottom: 1rem; object-fit: cover;" />
+                </div>
+                <h1>Premium Dry Fruits & Confectioneries</h1>
+                <p>Traditional Indian sweets crafted from the finest ingredients with 90 years of excellence</p>
+                <a href="#contact" class="cta-button">Explore Our Premium Collection</a>
+            </div>
+        </section>
+
+        <section class="legacy" id="legacy">
+            <h2>90 Years of Traditional Excellence</h2>
+            <p>Spring Associates brings you a heritage of premium food distribution spanning nine decades. Our legacy in crafting traditional Indian sweets combines time-honored recipes with the finest ingredients, ensuring each product meets the highest standards of quality, taste, and authenticity. We take pride in preserving traditional methods while adhering to modern food safety regulations.</p>
+        </section>
+
+        <section class="products" id="products">
+            <h2>Our Premium Product Portfolio</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://raw.githubusercontent.com/varunbagi/spring-associates-dry-fruits/main/kaju-katli.jpg" alt="Kaju Katli - Cashew Fudge" />
+                    </div>
+                    <h3>🌰 Kaju Katli</h3>
+                    <p>Our signature cashew fudge made with premium cashews using traditional preparation methods. Famous for its smooth texture and distinctive diamond shape, each piece melts perfectly in your mouth.</p>
+                    <div class="product-badge">Premium Cashews</div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://raw.githubusercontent.com/varunbagi/spring-associates-dry-fruits/main/badam-barfi.jpg" alt="Badam Barfi - Almond Fudge" />
+                    </div>
+                    <h3>🌰 Badam Barfi</h3>
+                    <p>Luxurious almond fudge featuring high-grade almonds infused with authentic saffron. Each piece delivers a rich flavor profile with an elegant golden appearance that speaks of premium quality.</p>
+                    <div class="product-badge">Saffron Infused</div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://raw.githubusercontent.com/varunbagi/spring-associates-dry-fruits/main/kaju-pista-barfi.jpg" alt="Kaju-Pista Barfi - Cashew Pistachio Luxury Fudge" />
+                    </div>
+                    <h3>🌰 Kaju-Pista Barfi</h3>
+                    <p>A luxurious nut combination that perfectly balances the smoothness of premium cashews with the rich, distinctive flavor of pistachios. This royal treat represents the pinnacle of traditional confectionery.</p>
+                    <div class="product-badge">Luxury Blend</div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://raw.githubusercontent.com/varunbagi/spring-associates-dry-fruits/main/pista-barfi.jpg" alt="Pista Barfi - Pure Pistachio Fudge" />
+                    </div>
+                    <h3>🌰 Pista Barfi</h3>
+                    <p>Crafted from 100% premium pistachios, this pure pistachio fudge delivers an intense, authentic pistachio flavor with a vibrant natural green color that showcases the quality of our ingredients.</p>
+                    <div class="product-badge">100% Pure</div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://raw.githubusercontent.com/varunbagi/spring-associates-dry-fruits/main/kajur-barfi.jpg" alt="Kajur Barfi - Date Barfi" />
+                    </div>
+                    <h3>🍯 Kajur Barfi</h3>
+                    <p>A completely sugar-free option made with premium dates, perfect for health-conscious consumers seeking natural sweetness. Rich in nutrients and fiber while maintaining the authentic taste of traditional barfi.</p>
+                    <div class="product-badge sugar-free">No Artificial Sugar Added</div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://raw.githubusercontent.com/varunbagi/spring-associates-dry-fruits/main/anjeer-barfi.jpg" alt="Dried Figs Barfi - Anjeer Barfi" />
+                    </div>
+                    <h3>🍇 Anjeer Barfi</h3>
+                    <p>Naturally sugar-free dried figs barfi that's high in fiber and packed with essential nutrients. This wholesome indulgence offers the perfect balance of health benefits and traditional taste.</p>
+                    <div class="product-badge sugar-free">No Artificial Sugar Added</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="quality" id="quality">
+            <h2>Our Quality Promise</h2>
+            <div class="quality-grid">
+                <div class="quality-card">
+                    <div class="quality-icon">🏆</div>
+                    <h3>Export Quality Standards</h3>
+                    <p>Every product meets stringent international food safety regulations and export-quality standards</p>
+                </div>
+                <div class="quality-card">
+                    <div class="quality-icon">🌱</div>
+                    <h3>Premium Ingredients</h3>
+                    <p>We source only the finest nuts and ingredients to ensure consistent taste and superior quality</p>
+                </div>
+                <div class="quality-card">
+                    <div class="quality-icon">❤️</div>
+                    <h3>Health-Conscious Options</h3>
+                    <p>Sugar-free varieties available to support healthy lifestyles without compromising on taste</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact" id="contact">
+            <h2>Ready to Experience Premium Quality?</h2>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-icon">📧</div>
+                    <div>
+                        <strong>Email:</strong><br>
+                        varunbagiapplications@gmail.com
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">📞</div>
+                    <div>
+                        <strong>Phone:</strong><br>
+                        +1 571-361-0835
+                    </div>
+                </div>
+            </div>
+            <p style="font-size: 1.2rem; margin-top: 2rem;">Let's discuss your premium confectionery needs!</p>
+        </section>
+    </div>
+
+    <script>
+        // Function to toggle hamburger menu
+        function toggleMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.getElementById('navMenu');
+            
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        }
+
+        // Function to close menu
+        function closeMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.getElementById('navMenu');
+            
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+        }
+
+        // Function to navigate to sections
+        function navigateToSection(sectionId) {
+            closeMenu();
+            setTimeout(() => {
+                const element = document.getElementById(sectionId);
+                if (element) {
+                    element.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            }, 100);
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.getElementById('navMenu');
+            
+            if (!hamburger.contains(event.target) && !navMenu.contains(event.target)) {
+                closeMenu();
+            }
+        });
+    </script>
+</body>
+</html>
